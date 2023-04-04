@@ -40,9 +40,10 @@ loginRoute.get('/get', async (req, res) => {
     try {
         const user = await UserModel.find({ email });
         let p = Number(user[0].time) || 0;
-        if ((time - p) >= 24 && user[0].time !== undefined) {
+        if ((p + (time - p)) >= (p + 1) && user[0].time !== undefined) { //p+(time-p) >= (p+24)
+            await UserModel.updateOne({ email }, { $unset: { time } });
             res.send({ msg: "Not Blocked" });
-        } else if ((time - p) < 24 && user[0].time !== undefined) {
+        } else if ((p + (time - p)) < (p + 2) && user[0].time !== undefined) {
             res.send({ msg: "Blocked" });
         } else {
             res.send({ msg: "Login Successful" });
