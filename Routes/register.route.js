@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 
 registerRoute.post('/register', async (req, res) => {
     const { email, password } = req.body;
+    console.log(email,password);
     try {
         bcrypt.hash(password, +(process.env.Salt_rounds), async (err, secure_password) => {
             if (err) {
